@@ -1,0 +1,22 @@
+<div class="row container d-flex justify-content-center align-items-center">
+    <div class="col-md-3 ">
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="Password" />
+            </div>
+            <div class="form-group mt-3">
+                <a href="/signup">Create new account</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+    {{#if errMsg}}
+    <p>{{this.errMsg}}</p>
+    {{/if}}
+</div>

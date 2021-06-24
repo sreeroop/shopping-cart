@@ -10,8 +10,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Products</a>
+                        <a class="nav-link active" aria-current="page" href="/">Products</a>
                     </li>
+                    {{#if user}}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Cart</a>
                     </li>
@@ -32,11 +33,26 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" tabindex="-1">Orders</a>
                     </li>
+                    {{/if}}
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{#if user}}
+                        {{user.name}}
+                        {{else}}
+                        Account
+                        {{/if}}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {{#if user}}
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                        {{else}}
+                        <li><a class="dropdown-item" href="/login">Login</a></li>
+                        {{/if}}
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>

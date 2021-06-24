@@ -1,9 +1,7 @@
 var db = require('../config/connection')
-var collection = require('../config/collections')
-const collections = require('../config/collections')
+var collections = require('../config/collections')
 module.exports = {
     addProduct: (product, callback) => {
-        console.log(product)
         db.get().collection('product').insertOne(product).then((data) => {
             callback(data.ops[0]._id)
         })
