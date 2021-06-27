@@ -3,3 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+.opacity0 {
+  opacity: 0;
+}
+.opacity1 {
+  opacity: 1;
+}

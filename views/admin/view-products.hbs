@@ -23,9 +23,14 @@
                     <td>{{this.name}}</td>
                     <td>{{this.category}}</td>
                     <td>{{this.price}}</td>
-                    <td>{{this.desc}}</td>
+                    <td>{{this.description}}</td>
                     <td>
                         <img style="width: 50px;height: 50px; " src="/product-image/{{this._id}}.png">
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="/admin/edit-product/{{this._id}}">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('r u sure')"
+                            href="/admin/delete-product/{{this._id}}">Delete</a>
                     </td>
                 </tr>
 

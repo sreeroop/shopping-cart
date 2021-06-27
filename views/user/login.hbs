@@ -1,6 +1,9 @@
 <div class="row container d-flex justify-content-center align-items-center">
-    <div class="col-md-3 ">
+    <div class="col-md-3 mt-5">
         <form action="/login" method="POST">
+            {{#if loginErr}}
+            <p class="error">{{this.loginErr}}</p>
+            {{/if}}
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp"
@@ -16,7 +19,4 @@
             </div>
         </form>
     </div>
-    {{#if errMsg}}
-    <p>{{this.errMsg}}</p>
-    {{/if}}
 </div>
