@@ -25,8 +25,11 @@
                             onclick="changeQuantity('{{this._id}}','{{this.product._id}}',+1)">+</button>
                     </td>
                     <td>
-                        <a class="btn btn-danger" onclick="return confirm('r u sure')"
-                            href="/remove-cart-product/{{this.product_id}}">Delete</a>
+
+                        <button class="btn btn-dark"
+                            onclick="deleteProd('{{this._id}}','{{this.product._id}}')">Remove</button>
+                        {{!-- <a class="btn btn-danger" onclick="return confirm('r u sure')"
+                            href="/remove-cart-product/{{this.product._id}}">Delete</a> --}}
                     </td>
 
                 </tr>
@@ -34,6 +37,16 @@
             </tbody>
             {{/each}}
         </table>
+        <hr>
+        <div class="row container d-flex flex-row-reverse">
+            <div class="col-sm-3 float-right">
+                <h3>Total: <span id="amnt"></span> </h3>
+                <button class="btn btn-dark float-right" onclick="deleteProd('{{this._id}}','{{this.product._id}}')">
+                    Check out</button>
+
+            </div>
+
+        </div>
     </div>
 </section>
 
@@ -57,7 +70,25 @@
                 } else {
                     document.getElementById(prodId).innerHTML = quantity + count
                 }
+                var total = price * multiply
+            }
+        })
+    };
+    function deleteProd(cartId, prodId) {
+        $.ajax({
+            url: '/remove-cart-product',
+            data: {
+                cart: cartId,
+                prod: prodId
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.removeProduct) {
+                    alert("product removed")
+                    location.reload()
+                }
             }
         })
     }
+
 </script>

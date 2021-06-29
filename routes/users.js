@@ -72,8 +72,11 @@ router.post('/change-product-quantity', (req, res, next) => {
     res.json(response)
   })
 })
-router.get('/remove-cart-product/:id', (req, res) => {
-  console.log(req.params.id, req.session.user._id)
+router.post('/remove-cart-product', async (req, res) => {
+  await userHelpers.removeCartProduct(req.body).then((response) => {
+    console.log("ji", response)
+    res.json(response)
+  })
   // userHelpers.removeCartProduct(req.body)
 })
 

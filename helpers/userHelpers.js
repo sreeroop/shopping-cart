@@ -143,7 +143,17 @@ module.exports = {
         })
 
     },
-    removeCartProduct: () => {
-        db.get().collection(collections.CART_COLLECTION).deleteOne({})
-    }
+    removeCartProduct: (data) => {
+        return new Promise(async (resolve, reject) => {
+            console.log(data)
+            await db.get().collection(collections.CART_COLLECTION).updateOne({ _id: objectId(data.cart) }, {
+                $pull: { products: { item: objectId(data.prod) } }
+            }).then(() => {
+                resolve({ removedProduct: true })
+            })
+        })
+    },
+    // total:()=>{
+    //     r
+    // }
 }
