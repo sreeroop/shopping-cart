@@ -1,0 +1,64 @@
+<div class="row p-5">
+    <form id="checkout" method="post" enctype="multipart/form-data">
+        <div class="d-flex justify-content-evenly">
+            <div class="col-md-5 d-flex flex-column justify-content-evenly">
+                <div class="mb-3">
+                    <label for="address" class="form-label">
+                        Address
+                    </label>
+                    <input name="userId" value="{{user}}" class="form-control" type="text" hidden>
+                    <input name="address" class="form-control" type="text" placeholder="Address" aria-label="name">
+                </div>
+                <div class="mb-3">
+                    <label for="pin" class="form-label">PIN</label>
+                    <input name="pin" class="form-control" type="number" placeholder="PIN" aria-label="pin">
+                </div>
+                <div class="mb-3">
+                    <label for="mobile" class="form-label">Mobile</label>
+                    <input name="mobile" class="form-control" type="number" placeholder="Mobile" aria-label="mobile">
+                </div>
+
+            </div>
+            <div class="col-lg-3 container border">
+                <div class="mt-3">
+                    <h2>Total: {{this.total}}</h2>
+                </div>
+                <hr>
+                <h3>Payment</h3>
+                <div class="col-md-8 ">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="cod" name="payment" id="cod" checked>
+                        <label class="form-check-label" for="cod">
+                            Cash on Delivery
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="online" name="pay" id="online-pay">
+                        <label class="form-check-label" for="online-pay">
+                            Online payment
+                        </label>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-success">Place order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script>
+    $('#checkout').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkout').serialize
+            success: (response) => {
+                if (response.status) {
+                    alert(response)
+                }
+            }
+        })
+    })
+</script>

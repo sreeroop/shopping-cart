@@ -1,7 +1,6 @@
 var db = require('../config/connection')
 var collections = require('../config/collections')
 var objectId = require('mongodb').ObjectID
-const { response } = require('express')
 module.exports = {
     addProduct: (product, callback) => {
         db.get().collection('product').insertOne(product).then((data) => {
@@ -43,5 +42,5 @@ module.exports = {
                     resolve(response)
                 })
         })
-    }
+    },
 }

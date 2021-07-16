@@ -19,17 +19,15 @@
                     <td>{{this.product.price}}</td>
                     <td>
                         <button class="btn btn-dark"
-                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
                         <span id="{{this.product._id}}">{{this.quantity}}</span>
                         <button class="btn btn-dark"
-                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',+1)">+</button>
+                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',+1)">+</button>
                     </td>
                     <td>
 
                         <button class="btn btn-dark"
                             onclick="deleteProd('{{this._id}}','{{this.product._id}}')">Remove</button>
-                        {{!-- <a class="btn btn-danger" onclick="return confirm('r u sure')"
-                            href="/remove-cart-product/{{this.product._id}}">Delete</a> --}}
                     </td>
 
                 </tr>
@@ -40,9 +38,9 @@
         <hr>
         <div class="row container d-flex flex-row-reverse">
             <div class="col-sm-3 float-right">
-                <h3>Total: <span id="amnt"></span> </h3>
-                <button class="btn btn-dark float-right" onclick="deleteProd('{{this._id}}','{{this.product._id}}')">
-                    Check out</button>
+                <h3>Total: <span id="total">{{this.total}}</span> </h3>
+                <a class="btn btn-primary float-right" href="place-order">
+                    Check out</a>
 
             </div>
 
@@ -51,12 +49,13 @@
 </section>
 
 <script>
-    function changeQuantity(cartId, prodId, count) {
+    function changeQuantity(cartId, prodId, userId, count) {
         let quantity = parseInt(document.getElementById(prodId).innerHTML)
         count = parseInt(count)
         $.ajax({
             url: '/change-product-quantity',
             data: {
+                user: userId,
                 cart: cartId,
                 product: prodId,
                 count: count,
@@ -68,13 +67,14 @@
                     alert("product removed")
                     location.reload()
                 } else {
-                    document.getElementById(prodId).innerHTML = quantity + count
+                    document.getElementById(prodId).innerHTML = quantity + count;
+                    document.getElementById("total").innerHTML = response.total
                 }
-                var total = price * multiply
             }
         })
     };
     function deleteProd(cartId, prodId) {
+        console.log("fun called")
         $.ajax({
             url: '/remove-cart-product',
             data: {
@@ -83,7 +83,9 @@
             },
             method: 'post',
             success: (response) => {
-                if (response.removeProduct) {
+                console.log("response received")
+                if (response.removedProduct) {
+                    console.log("success")
                     alert("product removed")
                     location.reload()
                 }

@@ -1,4 +1,3 @@
-const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 var productHelpers = require('../helpers/productHelpers');
@@ -54,7 +53,8 @@ router.get('/logout', (req, res) => {
 
 router.get('/cart', verifyLogin, async (req, res) => {
   let cartProds = await userHelpers.getCartProducts(req.session.user._id)
-  res.render('user/cart', { cartProds, user: req.session.user })
+  let total = await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/cart', { cartProds, user: req.session.user, total })
 
 })
 router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
@@ -66,18 +66,30 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
     console.log(err)
   }
 })
-router.post('/change-product-quantity', (req, res, next) => {
-  userHelpers.changeQuantity(req.body).then((response) => {
-    console.log(response)
+router.post('/change-product-quantity', async (req, res, next) => {
+  await userHelpers.changeQuantity(req.body).then(async (response) => {
+    response.total = await userHelpers.getTotalAmount(req.body.user)
     res.json(response)
   })
 })
 router.post('/remove-cart-product', async (req, res) => {
   await userHelpers.removeCartProduct(req.body).then((response) => {
-    console.log("ji", response)
     res.json(response)
   })
   // userHelpers.removeCartProduct(req.body)
 })
-
+router.get('/place-order', verifyLogin, async (req, res) => {
+  let total = await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order', { user: req.session.user._id, total })
+})
+router.post('/place-order', verifyLogin, async (req, res) => {
+  let products = await userHelpers.getCartProductList(req.body.userId)
+  let totalAmount = await userHelpers.getTotalAmount(req.body.userId)
+  await userHelpers.placeOrder(req.body, products, totalAmount).then((response) => {
+    res.json({ status: true })
+  })
+})
+router.get('/order-placed', (req, res) => {
+  res.render('user/order-placed')
+})
 module.exports = router;

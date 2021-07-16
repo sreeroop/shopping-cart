@@ -10,6 +10,7 @@ function addToCart(prodId) {
                 $('cart-count').html(count)
             }
             alert(response)
+            location.reload()
         }
     })
 }
